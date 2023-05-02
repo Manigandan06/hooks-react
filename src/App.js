@@ -1,72 +1,17 @@
-import { useState, useEffect } from "react";
-import "./App.css";
+import React, { createContext, useState } from "react";
+import C1 from "./C1";
 
-function App() {
-  //state = data
-  const [count, setcount] = useState(0);
-  const [input, setinput] = useState(0);
-  const [favTotals, setfavTotals] = useState([]);
-  const [data, setdata] = useState();
+export const DataContext = createContext(null);
 
-  //effect = function
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
-      .then((response) => response.json())
-      .then((json) => setdata(json));
-  }, []);
+export default function App() {
+  const [message, setmessage] = useState("Hi guys");
 
   return (
-    <div className="App">
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      <h1>React Hooks</h1>
-      <h2>{count}</h2>
-      <button
-        onClick={() => {
-          setcount(0);
-        }}
-      >
-        Reset
-      </button>
-      <button
-        onClick={() => {
-          setcount(count + 1);
-        }}
-      >
-        Increment
-      </button>
-      <button
-        onClick={() => {
-          setcount(count - 1);
-        }}
-      >
-        Decrement
-      </button>
-      <button
-        onClick={() => {
-          setcount(count + Number(input));
-        }}
-      >
-        Increment by {input}
-      </button>
-      <input
-        type="text"
-        onChange={(e) => {
-          setinput(e.target.value);
-        }}
-        value={input}
-      />
-      <hr />
-      <button
-        onClick={() => {
-          setfavTotals([...favTotals, count]);
-        }}
-      >
-        Add FavNumbers
-      </button>
-      <pre>{JSON.stringify(favTotals, null, 2)}</pre>
-    </div>
+    <DataContext.Provider value={{ message }}>
+      <div>
+        <h1>App</h1>
+        <C1 />
+      </div>
+    </DataContext.Provider>
   );
 }
-
-export default App;
